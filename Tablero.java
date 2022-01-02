@@ -1,4 +1,4 @@
-import java.util.Comparable;
+import java.util.*;
 
 public class Tablero implements Comparable<Tablero> {
   private int utilidad;
