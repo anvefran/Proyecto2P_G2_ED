@@ -30,6 +30,14 @@ public class Tablero implements Comparable<Tablero> {
   public void setMatrix(Character[][] matrix){
     this.matrix = matrix;
   }
+
+  public void print(){
+    for (int x = 0; x<3; x++){
+      for (int y = 0; y<3; y++){
+        System.out.println( "  "+ matrix[x][y] + "  ");
+      }
+    }
+  }
   //se envia el simbolo del oponente 
   public int utilidadRows(Character simboloOp){
     int util = 0;
@@ -76,6 +84,23 @@ public class Tablero implements Comparable<Tablero> {
 
   public int compareTo(Tablero tb){
     return this.utilidad - tb.getUtilidad();
+  }
+
+  //se genera la utilidad con respecto al simbolo de la computadora
+  public void generarUtilidadF(Character simboloUsr){
+    int comp = utilidadRows(simboloUsr) + utilidadColumns(simboloUsr) + utilidadDiagonal(simboloUsr);
+    if (simboloUsr == 'X'){
+      int usr = utilidadRows('O') + utilidadColumns('O') + utilidadDiagonal('O');
+      this.setUtilidad(comp-usr);
+    } else {
+      int usr = utilidadRows('X') + utilidadColumns('X') + utilidadDiagonal('X');
+      this.setUtilidad(comp-usr);
+    }
+  }  
+
+  //agrega una jugada
+  public void agregar(int x, int y, Character simbolo){
+    matrix[x][y] = simbolo;
   }
 
 }
