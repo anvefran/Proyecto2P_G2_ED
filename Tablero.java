@@ -2,7 +2,7 @@ import java.util.*;
 
 public class Tablero implements Comparable<Tablero> {
   private int utilidad;
-  private Character[][] matrix;
+  private Character[][] matrix = new Character[3][3];
 
   public Tablero(Character[][] matrix){
     this.matrix = matrix;
@@ -11,8 +11,8 @@ public class Tablero implements Comparable<Tablero> {
   //iniciliza la matriz con espacios vacios
   public Tablero(){
     this.utilidad = 0;
-    for (int x=0; x < matrix.length; x++) {
-      for (int y=0; y < matrix[x].length; y++) {
+    for (int x=0; x < 3; x++) {
+      for (int y=0; y < 3; y++) {
         this.matrix[x][y] = ' ';
       }
     }
@@ -34,7 +34,11 @@ public class Tablero implements Comparable<Tablero> {
   public void print(){
     for (int x = 0; x<3; x++){
       for (int y = 0; y<3; y++){
-        System.out.println( "  "+ matrix[x][y] + "  ");
+        System.out.print( "| "+ matrix[x][y]+ " |");
+        if (y == 2){
+          System.out.println();
+          //System.out.println("--------------");
+        }
       }
     }
   }
@@ -87,15 +91,10 @@ public class Tablero implements Comparable<Tablero> {
   }
 
   //se genera la utilidad con respecto al simbolo de la computadora
-  public void generarUtilidadF(Character simboloUsr){
-    int comp = utilidadRows(simboloUsr) + utilidadColumns(simboloUsr) + utilidadDiagonal(simboloUsr);
-    if (simboloUsr == 'X'){
-      int usr = utilidadRows('O') + utilidadColumns('O') + utilidadDiagonal('O');
-      this.setUtilidad(comp-usr);
-    } else {
-      int usr = utilidadRows('X') + utilidadColumns('X') + utilidadDiagonal('X');
-      this.setUtilidad(comp-usr);
-    }
+  public void generarUtilidadF(Character simboloUsr, Character simboloCpu){
+    int comp = this.utilidadRows(simboloUsr) + this.utilidadColumns(simboloUsr) + this.utilidadDiagonal(simboloUsr);
+    int usr = this.utilidadRows(simboloCpu) + this.utilidadColumns(simboloCpu) +this.utilidadDiagonal(simboloCpu);
+    this.setUtilidad(comp-usr);
   }  
 
   //agrega una jugada
@@ -103,4 +102,15 @@ public class Tablero implements Comparable<Tablero> {
     matrix[x][y] = simbolo;
   }
 
+  public void copiarMatrix(Character[][] arr2){
+    Character[][] arr = new Character[3][3];
+    for (int x = 0; x<3; x++){
+      for (int y = 0; y<3; y++){
+        arr[x][y] = arr2[x][y];
+      }
+    }
+    this.setMatrix(arr);
+  }
+
+  
 }
