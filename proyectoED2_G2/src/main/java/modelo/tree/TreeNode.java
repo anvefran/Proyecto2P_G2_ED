@@ -10,22 +10,23 @@ package modelo.tree;
  * @author Usuario
  */
 import java.util.PriorityQueue;
-import java.util.LinkedList;
+
 
 public class TreeNode<E> {
   private E content;
-  private PriorityQueue<Tree<E>> children; //o un heap de arboles
-  //private LinkedList<Tree<E>> children;
+  private PriorityQueue<Tree<E>> children; 
+  
 
   public TreeNode(E content){
     this.content = content;
     this.children = new PriorityQueue<>();
-    //this.children = new LinkedList<>();
   }
+  
   public TreeNode(){
     this.content = null;
     this.children = null;
   }
+  
   public E getContent(){
     return this.content;
   }
@@ -33,17 +34,11 @@ public class TreeNode<E> {
   public PriorityQueue<Tree<E>> getChildren(){
     return this.children;
   }
+  
   public void setChildren(PriorityQueue<Tree<E>> children){
     this.children = children;
   }
-  /*
-  public LinkedList<Tree<E>> getChildren(){
-    return this.children;
-  }
-  public void setChildren(LinkedList<Tree<E>> children){
-    this.children = children;
-  }
-  */
+  
   public void setContent(E content){
     this.content = content;
   }

@@ -24,9 +24,7 @@ public class Tree<E>{
   public TreeNode<E> getRoot(){
     return root;
   }
-  public Tree<E> getChildren(){
-    return root.getChildren().peek(); //retorna el de menor utilidad
-  }
+  
 
   
 }

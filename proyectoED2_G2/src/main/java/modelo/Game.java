@@ -12,6 +12,10 @@ import modelo.tree.TreeNode;
  * @author Usuario
  */
 import java.util.PriorityQueue;
+import java.util.Random;
+import java.util.LinkedList;
+import java.util.Set;
+import java.util.HashSet;
 
 public class Game {
 
@@ -36,29 +40,35 @@ public class Game {
   }
 
   //genera el arbol y cambia el tablero con el movimiento que se debe hacer
-  public static void generarArbol(Tablero tb, Character simbolo){
+  public static void generarMove(Tablero tb, Character simbolo){
     Tree<Tablero> t1 = generarPosiblesEstados(tb, simbolo);
     PriorityQueue<Tree<Tablero>> pq = t1.getRoot().getChildren();
-    PriorityQueue<Tree<Tablero>> pqMayores = new PriorityQueue<>((o1,o2)->{return o2.getRoot().getContent().getUtilidad() - (o1.getRoot().getContent().getUtilidad());});
-    //if (pq.size()>1){ //para cuando solo quede una opcion de tablero
-    
-    while (!pq.isEmpty()){
-      Tree<Tablero> t = pq.poll();
-      Tree<Tablero> subarbol = generarPosiblesEstados(t.getRoot().getContent(), obtenerOpSymbol(simbolo));
-      Tree<Tablero> move = subarbol.getRoot().getChildren().peek();
-      int utilidad = move.getRoot().getContent().getUtilidad(); //el de menor utilidad
-      t.getRoot().getContent().setUtilidad(utilidad); //se asocia al padre con esa utilidad
-      pqMayores.offer(t);
-      t.getRoot().setChildren(subarbol.getRoot().getChildren());
+
+    if (pq.size()>1){ //para cuando solo quede una opcion de tablero
+      PriorityQueue<Tree<Tablero>> pqMayores = new PriorityQueue<>((o1,o2)->{return o2.getRoot().getContent().getUtilidad() - (o1.getRoot().getContent().getUtilidad());});
+      while (!pq.isEmpty()){
+        Tree<Tablero> t = pq.poll();
+        Tree<Tablero> subarbol = generarPosiblesEstados(t.getRoot().getContent(), obtenerOpSymbol(simbolo));
+        Tree<Tablero> move = subarbol.getRoot().getChildren().peek();
+        int utilidad = move.getRoot().getContent().getUtilidad(); //el de menor utilidad
+        t.getRoot().getContent().setUtilidad(utilidad); //se asocia al padre con esa utilidad
+        pqMayores.offer(t);
+        t.getRoot().setChildren(subarbol.getRoot().getChildren());
+      }
+      LinkedList<Tablero> lista = new LinkedList<>();
+      for (Tree<Tablero> t: pqMayores){
+        if (t.getRoot().getContent().compareTo(pqMayores.peek().getRoot().getContent())==0){
+          lista.add(t.getRoot().getContent());
+        }
+      }
+      Random r = new Random();
+      int index = r.nextInt(lista.size());
+      Tablero move = lista.get(index);
+      tb.setMatrix(move.getMatrix());
+    } //if >1
+    else if (pq.size() == 1){
+      tb.setMatrix(pq.peek().getRoot().getContent().getMatrix());
     }
-    //}
-    /* prueba 
-    for (Tree<Tablero> t: pqMayores){
-      System.out.println(t.getRoot().getContent().getUtilidad());
-    }
-    System.out.println(pqMayores.peek().getRoot().getContent().getUtilidad());
-    */
-    tb.setMatrix(pqMayores.peek().getRoot().getContent().getMatrix());
   }
 
   
@@ -70,19 +80,73 @@ public class Game {
     }
   }
 
-  /*
-  public boolean verifyWinnerRow(Tablero tb, Character simbolo){
-    for (int x=0; x<3; x++){
-      int cont = 0;
+  
+  public static Character verifyWinnerRow(Tablero tb){
+    boolean conf = false;
+    Character simbolo = null;
+    int x = 0;
+    while (!conf && x<3){
+      LinkedList<Character> lista = new LinkedList<>();
       for (int y =0; y<3;y++){
-        if (tb.getMatrix()[x][y] == simbolo){
-          cont++;
-        }
+        lista.add(tb.getMatrix()[x][y]);
       }
-      
+      Set<Character> s = new HashSet<>();
+      s.addAll(lista);
+      if (s.size() == 1 && lista.getFirst() != ' '){
+        conf = true;
+        simbolo = lista.getFirst();
+      }
+      x++;
     }
-    
+    return simbolo;
   }
-    */
+
+  public static Character verifyWinnerColumn(Tablero tb){
+    boolean conf = false;
+    Character simbolo = null;
+    int y = 0;
+    while (!conf && y<3){
+      LinkedList<Character> lista = new LinkedList<>();
+      for (int x =0; x<3;x++){
+        lista.add(tb.getMatrix()[x][y]);
+      }
+      Set<Character> s = new HashSet<>();
+      s.addAll(lista);
+      if (s.size() == 1 && lista.getFirst() != ' '){
+        conf = true;
+        simbolo = lista.getFirst();
+      }
+      y++;
+    }
+    return simbolo;
+  }
+
+  public static Character verifyWinnerDiagonal(Tablero tb){
+    Character[][] matrix = tb.getMatrix();
+    if (matrix[0][2] == matrix[1][1] && matrix[2][0] ==matrix[1][1] ){
+      return matrix[1][1];
+    }
+    if (matrix[1][1] == matrix[0][0] && matrix[1][1] == matrix[2][2]){
+      return matrix[1][1];
+    }
+    return null;
+  }
+  
+  //dice si hay que seguir jugando o alguien ya gano
+  public static boolean continuarJuego(Tablero tb){
+    return verifyWinnerRow(tb) == null && verifyWinnerColumn(tb) == null && verifyWinnerDiagonal(tb) == null;
+  }
+
+  //retorna el simbolo del que gano
+  public static Character obtenerGanador(Tablero tb){
+    if (verifyWinnerRow(tb) != null){
+      return verifyWinnerRow(tb);
+    } else if (verifyWinnerColumn(tb) != null){
+      return verifyWinnerColumn(tb);
+    } else if (verifyWinnerDiagonal(tb) != null){
+      return verifyWinnerDiagonal(tb);
+    }
+    return null;
+  }
   
 }

@@ -9,7 +9,6 @@ package modelo;
  *
  * @author Usuario
  */
-import java.util.*;
 
 public class Tablero implements Comparable<Tablero> {
   private int utilidad;
@@ -79,10 +78,10 @@ public class Tablero implements Comparable<Tablero> {
     if (matrix[1][1] == simboloOp){ //verifica el centro
       return 0;
     } 
-    else if (matrix[0][0] != simboloOp && matrix[2][2] != simboloOp){
+    if (matrix[0][0] != simboloOp && matrix[2][2] != simboloOp){
       util++;
     }
-    else if (matrix[0][2] != simboloOp && matrix[2][0] != simboloOp){
+    if (matrix[0][2] != simboloOp && matrix[2][0] != simboloOp){
       util++;
     }
     return util;
