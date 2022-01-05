@@ -123,10 +123,10 @@ public class Game {
 
   public static Character verifyWinnerDiagonal(Tablero tb){
     Character[][] matrix = tb.getMatrix();
-    if (matrix[0][2] == matrix[1][1] && matrix[2][0] ==matrix[1][1] ){
+    if (matrix[0][2] == matrix[1][1] && matrix[2][0] ==matrix[1][1] && matrix[1][1] != ' '){
       return matrix[1][1];
     }
-    if (matrix[1][1] == matrix[0][0] && matrix[1][1] == matrix[2][2]){
+    if (matrix[1][1] == matrix[0][0] && matrix[1][1] == matrix[2][2] && matrix[1][1] != ' '){
       return matrix[1][1];
     }
     return null;

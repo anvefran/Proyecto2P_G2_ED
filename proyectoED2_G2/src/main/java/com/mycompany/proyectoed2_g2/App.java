@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import javafx.event.ActionEvent;
+import javafx.scene.Node;
 
 /**
  * JavaFX App
@@ -17,7 +19,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("primary"), 640, 480);
+        scene = new Scene(loadFXML("MainMenu"), 600, 400);
         stage.setScene(scene);
         stage.show();
     }
@@ -33,6 +35,20 @@ public class App extends Application {
 
     public static void main(String[] args) {
         launch();
+    }
+    
+    static void switchScenes(ActionEvent event, String fxml, int SizeX, int SizeY){
+        try {
+            Parent root = App.loadFXML(fxml);
+            Stage stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+            scene = new Scene(root, SizeX, SizeY);
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
+        } catch (IOException e){
+            System.out.println(fxml +" File not found, Error al cargar pantalla");
+        }
+        
     }
 
 }
