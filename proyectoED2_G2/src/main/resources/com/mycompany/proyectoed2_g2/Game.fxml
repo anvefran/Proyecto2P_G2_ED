@@ -10,13 +10,13 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.proyectoed2_g2.GameController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #B1D0E0;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.proyectoed2_g2.GameController">
    <top>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Label text="Tres en Raya">
+            <Label text="Tres en Raya" textFill="#1a374d">
                <font>
-                  <Font name="System Bold" size="22.0" />
+                  <Font name="Calisto MT Bold Italic" size="54.0" />
                </font>
             </Label>
          </children>
@@ -25,10 +25,13 @@
    <bottom>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#switchToMainMenu" text="SALIR">
+            <Button mnemonicParsing="false" onAction="#switchToMainMenu" style="-fx-background-color: #1a374d;" text="SALIR" textFill="WHITE">
                <HBox.margin>
                   <Insets right="40.0" />
                </HBox.margin>
+               <font>
+                  <Font name="Calisto MT Bold" size="17.0" />
+               </font>
             </Button>
          </children>
          <BorderPane.margin>
