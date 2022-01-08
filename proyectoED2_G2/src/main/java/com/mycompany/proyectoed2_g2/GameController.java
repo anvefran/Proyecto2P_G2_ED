@@ -122,9 +122,16 @@ public class GameController {
     
     private int verifyWinner(){
         if(!Game.continuarJuego(tableGame)){
-            mostrarAlerta(Alert.AlertType.INFORMATION, "Alguien ha ganado");
-            volverMenu();
-            return 0;
+            if (Game.obtenerGanador(tableGame) == playerSymbol){
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Has ganado!");
+                volverMenu();
+                return 0;
+            } else if (Game.obtenerGanador(tableGame) == aiSymbol){
+                mostrarAlerta(Alert.AlertType.INFORMATION, "Has perdido! La computadora ha ganado");
+                volverMenu();
+                return 0;
+            }
+          
         }
         
         if(isTie()){
